@@ -1,0 +1,20 @@
+{
+	"manifest_version": 2,
+	"name": "LinkScan",
+	"short_name": "LinkScan",
+	"version": "0.1.0",
+	"description": "A parallel, recursive link checking application for Google Chrome",
+	"homepage_url": "https://github.com/mikedamage/linkchecker",
+	"minimum_chrome_version": "28",
+	"background": {
+		"scripts": [
+			"bower_components/jquery/jquery.min.js",
+			"javascripts/background.js"
+		]
+	},
+	"permissions": [
+		"storage",
+		"http://*/",
+		"https://*/",
+	]
+}

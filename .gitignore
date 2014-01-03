@@ -1,0 +1,9 @@
+.DS_Store
+._*
+*~
+*.vimsession
+.sass-cache
+pkg/*
+build/javascripts
+build/stylesheets
+build/bower_components
