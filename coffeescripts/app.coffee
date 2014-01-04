@@ -3,7 +3,14 @@ LinkScan
 Routing Configuration
 ###
 
-angular.module('linkScanApp', [ 'ngRoute' ]).config ($routeProvider, $locationProvider) ->
+app = angular.module 'linkScanApp', [
+  'ngRoute'
+  'linkScanHome'
+  'linkScanResults'
+  'linkScanSettings'
+]
+
+app.config ($compileProvider, $routeProvider, $locationProvider) ->
   $routeProvider.when '/scan',
     templateUrl: 'scan.html'
     controller: 'ScanController'
