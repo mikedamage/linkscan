@@ -13,21 +13,16 @@
 
     <header id="app-header" class="navbar navbar-inverse navbar-fixed-top" role="banner">
         <div class="container">
-            <!--
-            <div class="navbar-header">
-                <span class="navbar-brand">LinkScan</span>
-            </div>
-            -->
             <nav class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="#scan">
+                        <a href="/scan">
                             <span class="fa fa-link"></span>
                             Scan
                         </a>
                     </li>
                     <li>
-                        <a href="#results">
+                        <a href="/results">
                             <span class="fa fa-sitemap"></span>
                             Results
                         </a>
@@ -35,7 +30,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="settings" href="#settings">
+                        <a class="settings" href="/settings">
                             <span class="fa fa-cog"></span>
                         </a>
                     </li>
@@ -44,32 +39,7 @@
         </div>
     </header>
 
-    <div id="main-content" class="container">
-        <h1>Start a Scan</h1>
-        <div class="row">
-            <div class="col-md-12">
-                <form id="scan-form" role="form">
-                    <div class="form-group">
-                        <label for="start-url">URL</label>
-                        <input type="url" placeholder="http://" id="start-url" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="worker-count">Worker Count</label>
-                        <input type="number" value="4" id="worker-count" class="form-control">
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" id="follow-redirects"> Follow redirects?
-                        </label>
-                    </div>
-
-                    <button type="submit" class="btn btn-default">
-                        <span class="fa fa-chevron-circle-right"></span>
-                        Scan
-                    </button>
-                </form>
-            </div>
-        </div>
+    <div id="main-content" class="container" ng-view>
     </div>
     
     <script src="bower_components/underscore/underscore-min.js"></script>
@@ -79,6 +49,10 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <script src="javascripts/main.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="javascripts/scans_controller.js"></script>
+    <script src="javascripts/results_controller.js"></script>
+    <script src="javascripts/settings_controller.js"></script>
+    <script src="javascripts/routes.js"></script>
 </body>
 </html>
