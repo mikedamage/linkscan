@@ -13,18 +13,31 @@
 
     <header id="app-header" class="navbar navbar-inverse navbar-fixed-top" role="banner">
         <div class="container">
+            <!--
             <div class="navbar-header">
-                <a href="#home" class="navbar-brand">LinkScan</a>
+                <span class="navbar-brand">LinkScan</span>
             </div>
+            -->
             <nav class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#scan">
+                            <span class="fa fa-link"></span>
+                            Scan
+                        </a>
+                    </li>
                     <li>
-                        <a href="#scan">Scan</a>
+                        <a href="#results">
+                            <span class="fa fa-sitemap"></span>
+                            Results
+                        </a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="settings" href="#settings"><span class="fa fa-cog"></span></a>
+                        <a class="settings" href="#settings">
+                            <span class="fa fa-cog"></span>
+                        </a>
                     </li>
                 </ul>
             </nav>
@@ -34,7 +47,28 @@
     <div id="main-content" class="container">
         <h1>Start a Scan</h1>
         <div class="row">
+            <div class="col-md-12">
+                <form id="scan-form" role="form">
+                    <div class="form-group">
+                        <label for="start-url">URL</label>
+                        <input type="url" placeholder="http://" id="start-url" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="worker-count">Worker Count</label>
+                        <input type="number" value="4" id="worker-count" class="form-control">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="follow-redirects"> Follow redirects?
+                        </label>
+                    </div>
 
+                    <button type="submit" class="btn btn-default">
+                        <span class="fa fa-chevron-circle-right"></span>
+                        Scan
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
     
