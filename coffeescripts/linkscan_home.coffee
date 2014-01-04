@@ -15,5 +15,6 @@ scanController = ($scope, $location) ->
 
   $scope.isActive = (path) -> $location.path() is path
   $scope.openPath = (path) -> console.debug $location.path path
+  null
 
 app.controller 'ScanController', [ '$scope', '$location', scanController ]
