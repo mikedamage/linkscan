@@ -8,15 +8,19 @@ app = angular.module 'linkScanApp', [
   'linkScanHome'
   'linkScanResults'
   'linkScanSettings'
+  'linkScanServices'
 ]
 
 app.config ($compileProvider, $routeProvider, $locationProvider) ->
+
+  $compileProvider.aHrefSanitizationWhitelist /^\s*(https?|ftp|mailto|chrome-extension):/
+
   $routeProvider.when '/scan',
-    templateUrl: 'scan.html'
+    templateUrl: 'templates/scan.html'
     controller: 'ScanController'
 
   $routeProvider.when '/results',
-    templateUrl: 'results.html'
+    templateUrl: 'templates/results.html'
     controller: 'ResultsController'
 
   ###
@@ -26,7 +30,7 @@ app.config ($compileProvider, $routeProvider, $locationProvider) ->
   ###
 
   $routeProvider.when '/settings',
-    templateUrl: 'settings.html'
+    templateUrl: 'templates/settings.html'
     controller: 'SettingsController'
 
   # Default route

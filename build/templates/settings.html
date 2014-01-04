@@ -1,0 +1,20 @@
+<h1>Settings</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div id="settings-form" role="form">
+            <div class="form-group">
+                <label for="worker-count">Worker Count</label>
+                <input id="worker-count" class="form-control" type="number" ng-model="workerCount" min="1" max="16" required>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input id="follow-redirects" type="checkbox" ng-model="followRedirects"> Follow redirects?
+                </label>
+            </div>
+            <button class="btn btn-success btn-lg" type="submit">
+                <span class="fa fa-check-circle"></span>
+                Save
+            </button>
+        </div>
+    </div>
+</div>

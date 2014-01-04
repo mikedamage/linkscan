@@ -9,8 +9,8 @@ by Mike Green <mike.is.green@gmail.com>
 chrome.app.runtime.onLaunched.addListener ->
   chrome.app.window.create 'main.html',
     bounds:
-      width: 800
-      height: 600
+      width: 1024
+      height: 768
       left: 100
       top: 100
     minWidth: 800
