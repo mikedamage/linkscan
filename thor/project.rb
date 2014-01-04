@@ -61,9 +61,9 @@ class Project < Thor
     listener = Listen.to $root_dir.expand_path.to_s do |modified, added, removed|
       if modified.any?
         commands = modified.map do |file|
-          if file.fnmatch('*.scss')
+          if File.fnmatch('*.scss', file)
             'css:compile'
-          elsif file.fnmatch('*.coffee')
+          elsif File.fnmatch('*.coffee', file)
             'coffeescript:compile'
           else
             nil
