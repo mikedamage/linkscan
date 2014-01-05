@@ -5,6 +5,7 @@ Routing Configuration
 
 app = angular.module 'linkScanApp', [
   'ngRoute'
+  'linkScanNavigation'
   'linkScanHome'
   'linkScanResults'
   'linkScanSettings'
@@ -15,7 +16,7 @@ app.config ($compileProvider, $routeProvider, $locationProvider) ->
 
   $compileProvider.aHrefSanitizationWhitelist /^\s*(https?|ftp|mailto|chrome-extension):/
 
-  $routeProvider.when '/scan',
+  $routeProvider.when '/',
     templateUrl: 'templates/scan.html'
     controller: 'ScanController'
 
@@ -34,7 +35,7 @@ app.config ($compileProvider, $routeProvider, $locationProvider) ->
     controller: 'SettingsController'
 
   # Default route
-  $routeProvider.otherwise redirectTo: '/scan'
+  $routeProvider.otherwise redirectTo: '/'
 
   $locationProvider.html5Mode true
 
