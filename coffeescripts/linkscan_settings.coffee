@@ -9,6 +9,10 @@ settingsController = ($scope, $location, $timeout, storage) ->
   settingsKey = 'linkScanSettings'
 
   # Default settings
+  $scope.settings =
+    workerCount: 4
+    followRedirects: true
+    respectRobotsTxt: true
   $scope.workerCount      = 4
   $scope.followRedirects  = true
   $scope.respectRobotsTxt = true
@@ -21,17 +25,11 @@ settingsController = ($scope, $location, $timeout, storage) ->
   storage.get settingsKey, (settings) ->
     console.debug settings
     if settings.hasOwnProperty settingsKey
-      settings                = settings[settingsKey]
-      $scope.workerCount      = settings.workerCount
-      $scope.followRedirects  = settings.followRedirects
-      $scope.respectRobotsTxt = settings.respectRobotsTxt
+      $scope.settings = _.extend $scope.settings, settings[settingsKey]
 
   $scope.saveSettings = ->
     settings = {}
-    settings[settingsKey] =
-      workerCount: $scope.workerCount
-      followRedirects: $scope.followRedirects
-      respectRobotsTxt: $scope.respectRobotsTxt
+    settings[settingsKey] = $scope.settings
     storage.set settings, ->
       console.debug 'settings saved'
       $scope.showBanner = true
