@@ -5,30 +5,43 @@ Settings Controller
 
 app = angular.module 'linkScanSettings', [ 'ngAnimate' ]
 
-settingsController = ($scope, $location, $storage) ->
+settingsController = ($scope, $location, $timeout, storage) ->
+  settingsKey = 'linkScanSettings'
+
+  # Default settings
   $scope.workerCount      = 4
   $scope.followRedirects  = true
-  $scope.showBanner       = false
   $scope.respectRobotsTxt = true
 
-  hideBanner = -> $scope.showBanner = false
+  $scope.showBanner       = false
+
+  hideBanner   = -> $scope.showBanner = false
+
+  # Load settings from storage
+  storage.get settingsKey, (settings) ->
+    console.debug settings
+    if settings.hasOwnProperty settingsKey
+      settings                = settings[settingsKey]
+      $scope.workerCount      = settings.workerCount
+      $scope.followRedirects  = settings.followRedirects
+      $scope.respectRobotsTxt = settings.respectRobotsTxt
 
   $scope.saveSettings = ->
-    settings =
+    settings = {}
+    settings[settingsKey] =
       workerCount: $scope.workerCount
       followRedirects: $scope.followRedirects
       respectRobotsTxt: $scope.respectRobotsTxt
-    $storage.set settings, ->
-      $scope.success()
-
-  $scope.success = ->
-    $scope.showBanner = true
-    $timeout hideBanner, 5000, true
+    storage.set settings, ->
+      console.debug 'settings saved'
+      $scope.showBanner = true
+      $timeout hideBanner, 5000, true
 
 app.controller 'SettingsController', [
   '$scope'
   '$location'
-  #'$storage'
+  '$timeout'
+  'storage'
   settingsController
 ]
 
