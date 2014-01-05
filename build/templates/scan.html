@@ -1,11 +1,26 @@
 <h1>Start a Scan</h1>
 <div class="row">
     <div class="col-md-12">
-        <form id="scan-form" role="form">
+        <form id="scan-form" role="form" ng-submit="startScan()">
             <div class="form-group">
                 <label for="start-url">URL</label>
-                <input type="url" placeholder="http://" id="start-url" class="form-control" required>
+                <input type="url" placeholder="http://" id="start-url" class="form-control" required ng-model="url">
             </div>
+
+            <details id="http-auth" ng-open="basicAuthOpen">
+                <summary>Basic Authentication</summary>
+
+                <div class="details-content">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input id="username" class="form-control" type="text" placeholder="Enter username" ng-model="basicAuthUsername">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" class="form-control" type="password" placeholder="Enter password" ng-model="basicAuthPassword">
+                    </div>
+            </details>
 
             <button type="submit" class="btn btn-primary btn-lg">
                 <span class="fa fa-chevron-circle-right"></span>

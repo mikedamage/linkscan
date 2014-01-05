@@ -23,7 +23,7 @@ settingsController = ($scope, $location, $timeout, storage) ->
 
   # Load settings from storage
   storage.get settingsKey, (settings) ->
-    console.debug settings
+    console.debug 'loaded settings: %O', settings
     if settings.hasOwnProperty settingsKey
       $scope.settings = _.extend $scope.settings, settings[settingsKey]
 
@@ -31,7 +31,7 @@ settingsController = ($scope, $location, $timeout, storage) ->
     settings = {}
     settings[settingsKey] = $scope.settings
     storage.set settings, ->
-      console.debug 'settings saved'
+      console.debug 'settings saved: %O', settings
       $scope.showBanner = true
       $timeout hideBanner, 5000, true
 
