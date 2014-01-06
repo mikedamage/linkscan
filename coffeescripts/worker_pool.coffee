@@ -22,6 +22,9 @@ class WorkerPool
   spawnWorkerThread: ->
     @workerQueue.push new WorkerThread this
 
+  killWorkerThread: ->
+    @workerQueue.shift().killWorker()
+
   freeWorkerThread: (workerThread) ->
     if @taskQueue.length > 0
       workerTask = @taskQueue.shift()
