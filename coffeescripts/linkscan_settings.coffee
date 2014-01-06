@@ -14,9 +14,6 @@ settingsController = ($scope, $location, $timeout, storage) ->
     followRedirects: true
     respectRobotsTxt: true
     scanAssets: false
-  $scope.workerCount      = 4
-  $scope.followRedirects  = true
-  $scope.respectRobotsTxt = true
 
   $scope.showBanner       = false
 
