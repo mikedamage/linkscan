@@ -18,3 +18,5 @@ class WorkerThread
   passCallback: (evt) ->
     @workerTask.callback(evt)
     @parentPool.freeWorkerThread this
+
+window.WorkerThread = WorkerThread
