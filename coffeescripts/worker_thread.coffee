@@ -4,7 +4,7 @@ Worker Thread Class
 ###
 
 class WorkerThread
-  constructor: (@parentPool) ->
+  constructor: (@id, @parentPool) ->
     @workerTask = {}
     @running    = false
     @worker     = null
@@ -18,7 +18,7 @@ class WorkerThread
       @worker.addEventListener 'message', @passCallback, false
       @worker.postMessage @workerTask.startMessage
 
-  passCallback: (evt) ->
+  passCallback: (evt) =>
     @workerTask.callback(evt)
     @parentPool.freeWorkerThread this
 

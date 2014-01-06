@@ -7,6 +7,7 @@ class WorkerPool
   constructor: (@poolSize = 4) ->
     @taskQueue   = []
     @workerQueue = []
+    @busyWorkers = []
 
     @spawnWorkerThread index for index in [1..@poolSize]
 
@@ -19,11 +20,15 @@ class WorkerPool
       # Otherwise put the task on the queue for the next available worker
       @taskQueue.push workerTask
 
-  spawnWorkerThread: ->
-    @workerQueue.push new WorkerThread this
+  spawnWorkerThread: (idx) ->
+    @workerQueue.push new WorkerThread idx, this
 
   killWorkerThread: ->
     @workerQueue.shift().killWorker()
+
+  killAllWorkers: ->
+    @killWorkerThread thread for thread in @workerQueue
+    @killWorkerThread thread for thread in @busyWorkers
 
   freeWorkerThread: (workerThread) ->
     if @taskQueue.length > 0
