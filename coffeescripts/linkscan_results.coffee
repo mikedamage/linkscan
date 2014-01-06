@@ -28,14 +28,20 @@ resultsController = ($scope, $location) ->
   ]
   $scope.pendingStartIndex = _.size($scope.scannedPages) + 1
 
-  createDownloadURL = ->
-    uri       = 'data:text/csv;base64,'
+  createCSVString = ->
     csvString = '"URL","Status","Appears On"' + "\n"
     _.each $scope.scannedPages, (val, key, list) ->
       csvString += "\"#{key}\",\"#{val.status}\",\"#{val.appearsOn.join("\\n")}\"\n"
-    uri += btoa csvString
-    uri
+    csvString
 
-  $scope.csvDownloadURI = createDownloadURL()
+  createDataURI = (string, mimeType) ->
+    uri = "data:#{mimeType};base64,"
+    uri += btoa string
+
+  createObjectURL = (string, mimeType) ->
+    blob = new Blob [ string ], type: mimeType
+    window.URL.createObjectURL blob
+
+  $scope.csvDownloadURI = createObjectURL createCSVString()
 
 app.controller 'ResultsController', [ '$scope', '$location', resultsController ]
