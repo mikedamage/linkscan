@@ -8,12 +8,18 @@ class Javascript < Thor
 
   desc 'bundle', 'Concatenate and minify JavaScripts'
   def bundle
-    thor 'javascript:concat'
+    thor 'javascript:concat', coffeescript: true
     thor 'javascript:minify'
   end
 
   desc 'concat [INPUT] [OUTPUT]', 'Combine JS files using comments in specified JS file'
+  method_option :coffeescript,
+    type: :boolean,
+    desc: "Compile CoffeeScripts first?",
+    aliases: %w( -c )
   def concat(input = @@app_js.to_s, output = @@bundle_dir.join('bundle.js').to_s)
+    thor 'coffeescript:compile' if options.coffeescript
+
     js_file          = Pathname.new input
     js_dir           = js_file.dirname
     compiled_script  = Pathname.new output
@@ -37,7 +43,7 @@ class Javascript < Thor
     total_size += concatted.bytesize
     total_kb    = ( total_size / 1024.0 ).round 2
 
-    unless compiled_dir.directory?
+    unless compiled_script.dirname.directory?
       say_status 'mkdir', compiled_dir.to_s, :yellow
       compiled_dir.mkdir
     end

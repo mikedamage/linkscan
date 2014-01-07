@@ -6,6 +6,8 @@ Routing Configuration
 ###
 = require "../bower_components/underscore/underscore-min.js"
 = require "../bower_components/spin.js/spin.js"
+= require "../bower_components/jquery/jquery.min.js"
+= require "../bower_components/spin.js/jquery.spin.js"
 = require "../bower_components/bootstrap/dist/js/bootstrap.min.js"
 = require "../bower_components/angular/angular.min.js"
 = require "../bower_components/angular-animate/angular-animate.min.js"
