@@ -5,7 +5,7 @@ Results Controller
 
 app = angular.module 'linkScanResults', [ 'ngAnimate' ]
 
-resultsController = ($scope, $location) ->
+resultsController = ($scope, $location, filesystem) ->
   createCsvString = ->
     csvString = '"URL","Status","Appears On"' + "\n"
     _.each $scope.scannedPages, (val, key, list) ->
@@ -44,21 +44,13 @@ resultsController = ($scope, $location) ->
 
   $scope.saveCsvAs = ->
     csvString = $scope.csvString
-    blob      = new Blob [ csvString ], type: 'text/csv'
 
-    chrome.fileSystem.chooseEntry { type: 'saveFile', suggestedName: 'linkscan.csv' }, (entry) ->
-      console.debug entry
+    filesystem.saveTextToFile 'linkscan.csv', 'text/csv', csvString, (evt) ->
+      console.log evt
 
-      chrome.fileSystem.isWritableEntry entry, (writable) ->
-        console.debug "Writable: %s", writable
-
-        if writable
-          entry.createWriter (writer) ->
-            writer.onwriteend = (evt) ->
-              console.debug "File saved to %s", entry.name
-            writer.onerror    = (err) ->
-              console.warn "Error writing to file: %s", e.toString()
-
-            writer.write blob
-
-app.controller 'ResultsController', [ '$scope', '$location', resultsController ]
+app.controller 'ResultsController', [
+  '$scope'
+  '$location'
+  'filesystem'
+  resultsController
+]

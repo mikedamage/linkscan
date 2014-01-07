@@ -42,22 +42,22 @@ app.service 'notifications', ($rootScope, chromeNotifications) ->
 app.service 'filesystem', ($rootScope, chromeFileSystem) ->
   @saveFile = (filename, blob, callback) ->
     chromeFileSystem.chooseEntry { type: 'saveFile', suggestedName: filename }, (entry) ->
-      console.debug entry
-
-      chromeFileSystem.isWritable entry, (writable) ->
-        console.debug "Writable: %s", writable
-
+      chromeFileSystem.isWritableEntry entry, (writable) ->
         if writable
-            entry.createWriter (writer) ->
-              writer.onwriteend = (evt) ->
-                console.debug "File saved to %s", entry.name
-              writer.onerror    = (err) ->
-                console.warn "Error writing file: %s", err.toString()
+          entry.createWriter (writer) ->
+            writer.onwriteend = (evt) ->
+              callback evt
+            writer.onerror    = (err) ->
+              console.warn "Error writing file: %s", err.toString()
 
-              writer.write blob
+            writer.write blob
+        else
+          console.error "File not writable"
 
-  @saveTextToFile = (filename, text, mimeType, callback) ->
+  @saveTextToFile = (filename, mimeType, text, callback) ->
     blob = new Blob [ text ], type: mimeType
     @saveFile filename, blob, callback
+
+  this
 
     
