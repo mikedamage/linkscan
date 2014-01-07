@@ -8,6 +8,7 @@ fetchURL = (url) ->
   request.onload = (evt) ->
     xhr     = evt.target
     message =
+      url: url
       status: xhr.status
       statusText: xhr.statusText
       responseText: xhr.responseText

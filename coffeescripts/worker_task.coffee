@@ -4,6 +4,6 @@ WorkerTask Class
 ###
 
 class WorkerTask
-  constructor: (@script, @callback, @startMessage) ->
+  constructor: (@script, @startMessage, @callback) ->
 
 window.WorkerTask = WorkerTask
