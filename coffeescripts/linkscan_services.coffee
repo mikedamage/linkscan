@@ -7,6 +7,7 @@ app = angular.module 'linkScanServices', []
 
 app.value 'chromeStorage', chrome.storage.sync
 app.value 'chromeNotifications', chrome.notifications
+app.value 'chromeFileSystem', chrome.fileSystem
 
 # Interface for chrome.storage.sync API
 app.service 'storage', ($rootScope, chromeStorage) ->
@@ -37,3 +38,26 @@ app.service 'notifications', ($rootScope, chromeNotifications) ->
     @basic { title: 'Scan Started', message: message }, done
 
   this
+
+app.service 'filesystem', ($rootScope, chromeFileSystem) ->
+  @saveFile = (filename, blob, callback) ->
+    chromeFileSystem.chooseEntry { type: 'saveFile', suggestedName: filename }, (entry) ->
+      console.debug entry
+
+      chromeFileSystem.isWritable entry, (writable) ->
+        console.debug "Writable: %s", writable
+
+        if writable
+            entry.createWriter (writer) ->
+              writer.onwriteend = (evt) ->
+                console.debug "File saved to %s", entry.name
+              writer.onerror    = (err) ->
+                console.warn "Error writing file: %s", err.toString()
+
+              writer.write blob
+
+  @saveTextToFile = (filename, text, mimeType, callback) ->
+    blob = new Blob [ text ], type: mimeType
+    @saveFile filename, blob, callback
+
+    

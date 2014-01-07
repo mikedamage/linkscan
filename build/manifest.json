@@ -4,7 +4,7 @@
 	"short_name": "LinkScan",
 	"version": "0.1.0",
 	"description": "A parallel, recursive link checking application for Google Chrome",
-	"minimum_chrome_version": "28",
+	"minimum_chrome_version": "31",
 	"app": {
 		"background": {
 			"scripts": [
@@ -16,7 +16,7 @@
 	"permissions": [
 		"storage",
 		"notifications",
-		"fileSystem",
+		{"fileSystem": ["write", "directory"]},
 		"http://*/",
 		"https://*/"
 	]

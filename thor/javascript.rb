@@ -71,13 +71,19 @@ class Javascript < Thor
   end
 
   desc 'minify [INPUT] [OUTPUT]', 'Minify bundled JS file'
+  method_option :mangle_vars,
+    type: :boolean,
+    desc: "Shorten variable names. May break Angular."
   def minify(input = @@bundle_dir.join('bundle.js').to_s, output = @@bundle_dir.join('bundle.min.js').to_s)
     require 'uglifier'
 
+    uglifier_opts    = {
+      mangle: if options.mangle_vars then options.mangle_vars else false end
+    }
     infile           = Pathname.new input
     outfile          = Pathname.new output
     original_size    = infile.size
-    minified         = Uglifier.compile infile.read
+    minified         = Uglifier.compile infile.read, uglifier_opts
     minified_size    = minified.bytesize
     original_size_kb = ( original_size / 1024.0 ).round 2
     minified_size_kb = ( minified_size / 1024.0 ).round 2

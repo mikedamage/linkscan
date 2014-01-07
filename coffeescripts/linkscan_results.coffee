@@ -6,6 +6,17 @@ Results Controller
 app = angular.module 'linkScanResults', [ 'ngAnimate' ]
 
 resultsController = ($scope, $location) ->
+  createCsvString = ->
+    csvString = '"URL","Status","Appears On"' + "\n"
+    _.each $scope.scannedPages, (val, key, list) ->
+      csvString += "\"#{key}\",\"#{val.status}\",\"#{val.appearsOn.join("\\n")}\"\n"
+    csvString
+
+  createDataURI = (string, mimeType) ->
+    uri = "data:#{mimeType};base64,"
+    uri += btoa string
+
+  # MOCK DATA
   $scope.scannedPages =
     'http://google.com/':
       success: true
@@ -26,22 +37,28 @@ resultsController = ($scope, $location) ->
     'http://google.com/bar.html'
     'http://google.com/foo.html'
   ]
+  # END MOCK DATA
+
   $scope.pendingStartIndex = _.size($scope.scannedPages) + 1
+  $scope.csvString         = createCsvString()
 
-  createCSVString = ->
-    csvString = '"URL","Status","Appears On"' + "\n"
-    _.each $scope.scannedPages, (val, key, list) ->
-      csvString += "\"#{key}\",\"#{val.status}\",\"#{val.appearsOn.join("\\n")}\"\n"
-    csvString
+  $scope.saveCsvAs = ->
+    csvString = $scope.csvString
+    blob      = new Blob [ csvString ], type: 'text/csv'
 
-  createDataURI = (string, mimeType) ->
-    uri = "data:#{mimeType};base64,"
-    uri += btoa string
+    chrome.fileSystem.chooseEntry { type: 'saveFile', suggestedName: 'linkscan.csv' }, (entry) ->
+      console.debug entry
 
-  createObjectURL = (string, mimeType) ->
-    blob = new Blob [ string ], type: mimeType
-    window.URL.createObjectURL blob
+      chrome.fileSystem.isWritableEntry entry, (writable) ->
+        console.debug "Writable: %s", writable
 
-  $scope.csvDownloadURI = createObjectURL createCSVString()
+        if writable
+          entry.createWriter (writer) ->
+            writer.onwriteend = (evt) ->
+              console.debug "File saved to %s", entry.name
+            writer.onerror    = (err) ->
+              console.warn "Error writing to file: %s", e.toString()
+
+            writer.write blob
 
 app.controller 'ResultsController', [ '$scope', '$location', resultsController ]
