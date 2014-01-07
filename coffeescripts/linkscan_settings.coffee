@@ -13,7 +13,6 @@ settingsController = ($scope, $location, $timeout, storage) ->
     workerCount: 4
     followRedirects: true
     respectRobotsTxt: true
-    scanAssets: false
 
   $scope.showBanner       = false
 
