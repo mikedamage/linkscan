@@ -72,6 +72,7 @@ class Project < Thor
 
         commands.uniq!
         commands.delete_if {|cmd| cmd.nil? } if commands.any?
+        commands.push('javascript:bundle') if commands.include?('coffeescript:compile')
         commands.each {|cmd| thor cmd } if commands.any?
       end
     end
