@@ -39,11 +39,20 @@ resultsController = ($scope, $location, filesystem) ->
   ]
   # END MOCK DATA
 
-  $scope.pendingStartIndex = _.size($scope.scannedPages) + 1
-  $scope.csvString         = createCsvString()
+  $scope.scannedUrlCount   = _.size $scope.scannedPages
+  $scope.pendingUrlCount   = _.size $scope.pendingPages
+  $scope.pendingStartIndex = $scope.scannedUrlCount + 1
+
+  # Watch $scope.scannedPages for changes and update URL count
+  $scope.$watchCollection 'scannedPages', (newProps, oldProps) ->
+    $scope.scannedUrlCount   = _.size newProps
+    $scope.pendingStartIndex = $scope.scannedUrlCount + 1
+
+  $scope.$watchCollection 'pendingPages', (newVal, oldVal) ->
+    $scope.pendingUrlCount = _.size newVal
 
   $scope.saveCsvAs = ->
-    csvString = $scope.csvString
+    csvString = createCsvString()
 
     filesystem.saveTextToFile 'linkscan.csv', 'text/csv', csvString, (evt) ->
       console.log evt

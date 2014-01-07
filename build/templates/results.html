@@ -1,5 +1,12 @@
 <h1>Scan Results</h1>
-<a href="" ng-click="saveCsvAs()">Download</a>
+<div>
+    <a href="" ng-click="saveCsvAs()">Download</a>
+</div>
+
+<p>
+    {{pendingUrlCount}} / {{pendingUrlCount+scannedUrlCount}} URLs scanned
+</p>
+
 <div class="row">
     <div class="col-md-12">
         <table class="table results">
