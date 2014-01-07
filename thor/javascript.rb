@@ -6,6 +6,12 @@ class Javascript < Thor
   @@app_js     = $root_dir.join 'build', 'javascripts', 'app.js'
   @@bundle_dir = $root_dir.join 'build', 'javascripts', 'compiled'
 
+  desc 'bundle', 'Concatenate and minify JavaScripts'
+  def bundle
+    thor 'javascript:concat'
+    thor 'javascript:minify'
+  end
+
   desc 'concat [INPUT] [OUTPUT]', 'Combine JS files using comments in specified JS file'
   def concat(input = @@app_js.to_s, output = @@bundle_dir.join('bundle.js').to_s)
     js_file          = Pathname.new input
