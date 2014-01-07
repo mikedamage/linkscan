@@ -9,6 +9,9 @@
 		"background": {
 			"scripts": [
 				"bower_components/jquery/jquery.min.js",
+				"javascripts/worker_pool.js",
+				"javascripts/worker_task.js",
+				"javascripts/worker_thread.js",
 				"javascripts/background.js"
 			]
 		}
