@@ -12,10 +12,6 @@ resultsController = ($scope, $location, filesystem) ->
       csvString += "\"#{key}\",\"#{val.status}\",\"#{val.appearsOn.join("\\n")}\"\n"
     csvString
 
-  createDataURI = (string, mimeType) ->
-    uri = "data:#{mimeType};base64,"
-    uri += btoa string
-
   # MOCK DATA
   $scope.scannedPages =
     'http://google.com/':

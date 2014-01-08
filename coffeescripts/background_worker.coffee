@@ -12,6 +12,7 @@ fetchURL = (url) ->
       status: xhr.status
       statusText: xhr.statusText
       responseText: xhr.responseText
+      contentType: xhr.getResponseHeader 'Content-Type'
     postMessage message
 
   request.open 'GET', url
