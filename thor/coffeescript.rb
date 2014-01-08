@@ -6,35 +6,28 @@ class Coffeescript < Thor
   method_option :source_maps, type: :boolean, desc: "Generate source maps along with JS files"
   method_option :clean, type: :boolean, desc: 'Delete files in build/javascripts first'
   def compile
+    require 'coffee-script'
+
     thor 'coffeescript:clean' if options.clean
-
-    `which coffee`
-
-    if $?.exitstatus != 0
-      say 'CoffeeScript executable not found. Run `npm install -g coffee-script`', :red
-      exit
-    end
 
     cs_dir = $root_dir.join 'coffeescripts'
     js_dir = $root_dir.join 'build', 'javascripts'
 
     cs_dir.children.each do |child|
       if child.fnmatch('*.coffee')
+        timestamp          = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+        js_filename        = child.basename.sub 'coffee', 'js'
+        compilation_header = "// Compiled with CoffeeScript #{CoffeeScript.version} on #{timestamp}"
+
         say_status 'compile', child.basename.to_s, :blue
 
-        coffee_opts = {
-          output: js_dir.expand_path.to_s,
-          compile: true
-        }
-        coffee_opts[:map] = true if options.source_maps
-
-        coffee_opts = coffee_opts.map do |pair|
-          if pair.last === true then "--#{pair.first}" else "--#{pair.first} #{pair.last}" end
+        js_content  = CoffeeScript.compile child.read
+        
+        say_status 'save', js_filename.to_s, :green
+        js_dir.join(js_filename).open('w') do |file|
+          file.puts  compilation_header
+          file.write js_content
         end
-
-        coffee_cmd = "coffee #{coffee_opts.join(' ')} #{child.expand_path.to_s}"
-
-        run coffee_cmd, verbose: false
       end
     end
   end
