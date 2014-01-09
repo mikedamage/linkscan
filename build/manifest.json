@@ -12,6 +12,10 @@
 				"javascripts/worker_pool.js",
 				"javascripts/worker_task.js",
 				"javascripts/worker_thread.js",
+				"bower_components/uri.js/src/SecondLevelDomains.js",
+				"bower_components/uri.js/src/URI.min.js",
+				"bower_components/uri.js/src/URI.fragmentURI.js",
+				"bower_components/uri.js/src/jquery.URI.min.js",
 				"javascripts/background.js"
 			]
 		}
