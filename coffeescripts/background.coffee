@@ -49,6 +49,9 @@ crawlLinksRecursively = (evt) ->
   delete window.pendingUrls[data.url]
   window.crawledUrls[data.url] = page
 
+  message = method: "addScannedPage", page: { url: data.url, data: page }
+  chrome.runtime.sendMessage message, (resp) -> console.debug resp
+
   parseAndCrawlDocument data.url, data.responseText if helpers.isHTML data.contentType
   true
 
@@ -59,6 +62,12 @@ parseAndCrawlDocument = (url, text) ->
 
   _.each links, (link, index) ->
     fullUrl = helpers.convertToAbsolute url, link.href
+    
+    if window.crawledUrls[fullUrl]?
+      window.crawledUrls[fullUrl].appearsOn.push url
+    else
+      task = new WorkerTask 'javascripts/background_worker.js', { url: fullUrl }, crawlLinksRecursively
+      window.workerPool.addWorkerTask task
 
 # Launch listener - open main window
 chrome.app.runtime.onLaunched.addListener ->
