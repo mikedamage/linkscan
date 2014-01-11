@@ -64,7 +64,13 @@ parseAndCrawlDocument = (url, text) ->
     fullUrl = helpers.convertToAbsolute url, link.href
     
     if window.crawledUrls[fullUrl]?
+      # [todo] - Change appearsOn to a Set-like object (object w/ URLs as keys like {"http://foo.com": true})
       window.crawledUrls[fullUrl].appearsOn.push url
+      message =
+        method: "addToAppearsOn"
+        parentUrl: fullUrl
+        url: url
+      chrome.runtime.sendMessage message, (resp) -> console.debug resp
     else
       task = new WorkerTask 'javascripts/background_worker.js', { url: fullUrl }, crawlLinksRecursively
       window.workerPool.addWorkerTask task
